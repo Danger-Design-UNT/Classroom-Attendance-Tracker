@@ -1,6 +1,5 @@
-# Classroom-Attendance-Tracker
+# Classroom-Attendance-Tracker 4901 Group 
 
-# 4901GroupRepo
 Github repository for our Capstone Project in CSCE 4901
 
 ## Team Name
