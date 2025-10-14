@@ -1,0 +1,73 @@
+body{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: #f0f0f0;
+}
+.container{
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    padding: 3rem;
+    border-radius: 15px;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.login-header{
+    font-size: 3rem;
+    margin-top: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+input{
+    width: 15rem;
+    height: 2.8rem;
+    border-radius: 5px;
+    color: #f0f0f0;
+    border: 0.5px solid #ccc;
+    padding-left: .8rem;
+    color: black;
+}
+.sign-in-button{
+    width: 10rem;
+    height: 3rem;
+    font-size: 1.2rem;
+    background-color: #4285F4;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+.login-email{
+    margin-bottom: 1.5rem;
+}
+.login-password{
+margin-bottom: 2rem;
+}
+
+.forgot-button{
+    margin-top: 1.5rem;
+    background: none;         
+    border: none;            
+    color: #1A73E8;           
+    cursor: pointer;         
+    font-size: 1.1rem;
+    font-family: inherit;
+    padding: 0;               
+    text-decoration: none;
+
+}
+
+.forgot-button:hover {
+    text-decoration: underline; 
+  }
+  
