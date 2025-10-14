@@ -13,6 +13,7 @@ body{
     flex-direction: column;
     background-color: white;
     padding: 3rem;
+    padding-bottom: 2.5rem;
     border-radius: 15px;
 }
 
@@ -60,7 +61,7 @@ margin-bottom: 2rem;
     border: none;            
     color: #1A73E8;           
     cursor: pointer;         
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-family: inherit;
     padding: 0;               
     text-decoration: none;
@@ -71,3 +72,18 @@ margin-bottom: 2rem;
     text-decoration: underline; 
   }
   
+.sign-up{
+    margin-top: 1.5rem;
+    background: none;         
+    border: none;            
+    color: #1A73E8;           
+    cursor: pointer;         
+    font-size: 1.1rem;
+    font-family: inherit;
+    padding: 0;               
+    text-decoration: none;
+}
+
+.sign-up:hover{
+    text-decoration: underline; 
+}
