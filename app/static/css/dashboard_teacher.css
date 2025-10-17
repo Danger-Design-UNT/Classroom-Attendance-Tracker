@@ -1,0 +1,77 @@
+
+.menu{
+    margin-right: auto;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    border: none;
+    margin-top: .5rem;
+}
+button{
+    cursor: pointer;
+    border: none;
+    height: 2rem;
+    margin-top: 4rem;
+    border-radius: 10px;
+}
+
+.teacher-header{
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.view-container{
+    display: flex;
+    gap: 2rem;
+}
+.view-attendance{
+    width: 10rem;
+    height: 6rem;
+    font-size: 1.2rem;
+}
+.view-all-classes{
+    width: 10rem;
+    height: 6rem;
+    font-size: 1.2rem;
+
+}
+
+.qr-generate{
+    width: 15rem;
+    height: 15rem;
+    font-size: 2rem;
+}
+
+.bottom-container{
+    display: flex;
+    gap: 2rem;
+}
+
+.today-class{
+    width: 10rem;
+    height: 6rem;
+    font-size: 1.2rem;
+
+}
+
+.quick-stats{
+    width: 10rem;
+    height: 6rem;
+    font-size: 1.2rem;
+
+}
+
+.create-class{
+    width: 13rem;
+    height: 5rem;
+    font-size: 1.3rem;
+}
