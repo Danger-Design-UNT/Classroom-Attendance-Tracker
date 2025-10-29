@@ -7,7 +7,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 # Import blueprints
-from .routes.main import main_bp
+# from .routes.main import main_bp
 from .routes.auth import auth_bp
 from .routes.attendance import attendance_bp
 
@@ -21,7 +21,7 @@ def create_app():
     migrate.init_app(app, db)
 
     # Register blueprints
-    app.register_blueprint(main_bp)
+    # app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(attendance_bp)
 
