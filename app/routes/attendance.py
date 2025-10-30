@@ -1,28 +1,30 @@
-from flask import Blueprint, render_template, session, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash
+from flask_login import login_required, current_user
 from functools import wraps
 
-attendance_bp = Blueprint('attendance', __name__)  
+attendance_bp = Blueprint('attendance', __name__)
 
-def login_required(role=None):
+
+def role_required(role):
     def decorator(f):
         @wraps(f)
-        def decorated_function(*args, **kwargs):
-            if 'user_id' not in session:
-                flash("Please log in first.", "warning")
-                return redirect(url_for('auth.login'))
-            if role and session.get('role') != role:
+        @login_required
+        def wrapped(*args, **kwargs):
+            if current_user.role != role:
                 flash("Access denied.", "danger")
                 return redirect(url_for('auth.login'))
             return f(*args, **kwargs)
-        return decorated_function
+        return wrapped
     return decorator
 
+
 @attendance_bp.route('/dashboard/student')
+@role_required('student')
 def student_dashboard():
-    # later: check if user is logged in and role == 'student' 
     return render_template('dashboard_student.html')
 
+
 @attendance_bp.route('/dashboard/teacher')
+@role_required('teacher')
 def teacher_dashboard():
-    # later: check if user is logged in and role == 'teacher' 
     return render_template('dashboard_teacher.html')

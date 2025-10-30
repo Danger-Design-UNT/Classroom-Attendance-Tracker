@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, session
+# app/routes/auth.py
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.routes.models import User
+from flask_login import login_user, logout_user, login_required, current_user
+from app.models import User
 from app import db
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -37,12 +39,11 @@ def login():
         password = request.form.get('password')
 
         user = User.query.filter_by(email=email).first()
+
         if user and check_password_hash(user.password_hash, password):
-            session['user_id'] = user.id
-            session['role'] = user.role
+            login_user(user)  
             flash('Login successful!', 'success')
 
-            # Redirect based on role
             if user.role == 'student':
                 return redirect(url_for('attendance.student_dashboard'))
             else:
@@ -54,7 +55,8 @@ def login():
 
 
 @auth_bp.route('/logout')
+@login_required
 def logout():
-    session.clear()
+    logout_user()  
     flash('You have been logged out.', 'info')
     return redirect(url_for('auth.login'))
