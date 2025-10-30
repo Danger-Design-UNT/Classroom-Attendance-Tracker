@@ -9,7 +9,7 @@ Team Name: Danger Design
 GitHub Repository:
 https://github.com/Danger-Design-UNT/Classroom-Attendance-Tracker
 
-Trello Board (Sprint 0):
+Trello Board (Sprint 1):
 https://trello.com/invite/b/68bcb325f1c496b48b835fd9/ATTI967716767a4c1e1704a10f46408e23dc66BB8534/danger-design-sprint-0
 
 Recurring Zoom Meeting Link:
