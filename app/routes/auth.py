@@ -1,23 +1,32 @@
-# app/routes/auth.py
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from app.models import User
 from app import db
+from app.forms import SignupForm, LoginForm
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+
+
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        role = request.form.get('role', 'student') 
+    form = SignupForm()
+
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        confirm_password = form.confirm_password.data
+        role = form.role.data
 
         if User.query.filter_by(email=email).first():
             flash('Email already exists. Please log in.', 'warning')
             return redirect(url_for('auth.login'))
-
+        
+        if password != confirm_password:
+            flash('Passwords do not match.', 'danger')
+            return redirect(url_for('auth.signup'))
+        
         user = User(
             email=email,
             password_hash=generate_password_hash(password),
@@ -29,30 +38,26 @@ def signup():
         flash('Account created! Please log in.', 'success')
         return redirect(url_for('auth.login'))
 
-    return render_template('signup.html')
+    return render_template('signup.html', form=form)
+
+
+
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
 
-        user = User.query.filter_by(email=email).first()
-
-        if user and check_password_hash(user.password_hash, password):
-            login_user(user)  
+        if user and check_password_hash(user.password_hash, form.password.data):
+            login_user(user)
             flash('Login successful!', 'success')
-
-            if user.role == 'student':
-                return redirect(url_for('attendance.student_dashboard'))
-            else:
-                return redirect(url_for('attendance.teacher_dashboard'))
+            return redirect(url_for('attendance.student_dashboard') if user.role == 'student' else url_for('attendance.teacher_dashboard'))
         else:
             flash('Invalid email or password', 'danger')
 
-    return render_template('login.html')
-
+    return render_template('login.html', form=form)
 
 @auth_bp.route('/logout')
 @login_required

@@ -12,9 +12,12 @@
         <h2 class="login-header">Login</h2>
 
         <form method="POST" action="{{ url_for('auth.login') }}" class="login-form">
-            <input type="email" name="email" placeholder="Email:" class="login-email">
-            <input type="password" name="password" placeholder="Password:" class="login-password">
-            <button type="submit" class="sign-in-button">Sign In</button>
+            {{ form.hidden_tag() }} 
+
+            {{ form.email(class_="login-email", placeholder="Email:") }}
+            {{ form.password(class_="login-password", placeholder="Password:") }}
+
+            {{ form.submit(class_="sign-in-button") }}
         </form>
 
         <button type="button" class="forgot-button">Forgot password</button>
