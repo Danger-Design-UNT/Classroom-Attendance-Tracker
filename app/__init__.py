@@ -11,6 +11,11 @@ def create_app():
     app.config['SECRET_KEY'] = 'your_secret_key_here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
+
+    app.config['SESSION_COOKIE_SECURE'] = True     
+    app.config['REMEMBER_COOKIE_HTTPONLY'] = True   
+    app.config['SESSION_PROTECTION'] = 'strong'      
+
     db.init_app(app)
     login_manager.init_app(app)
 
