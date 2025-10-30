@@ -10,7 +10,7 @@ def signup():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        role = request.form.get('role', 'student')  # optional role selection
+        role = request.form.get('role', 'student') 
 
         if User.query.filter_by(email=email).first():
             flash('Email already exists. Please log in.', 'warning')
