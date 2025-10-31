@@ -50,6 +50,3 @@ class Attendance(db.Model):
     def __repr__(self):
         return f'<Attendance Student={self.student_id} Class={self.class_id}>'
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))

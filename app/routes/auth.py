@@ -42,10 +42,20 @@ def login():
         if user and check_password_hash(user.password_hash, form.password.data):
             login_user(user)
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('auth.dashboard')) 
+
+            next_page = request.args.get('next')
+
+            if user.role == 'teacher':
+                dashboard = 'attendance.teacher_dashboard'
+            else:
+                dashboard = 'attendance.student_dashboard'
+
+            return redirect(next_page or url_for(dashboard))
+
         else:
             flash('Invalid email or password.', 'danger')
     return render_template('login.html', form=form)
+
 
 
 @auth_bp.route('/logout')
