@@ -1,0 +1,6 @@
+[
+    {"name": "Ava Li", "email": "ava@example.com", "present": true},
+    {"name": "Noah Kim", "email": "noah@example.com", "present": false},
+    {"name": "Maya Patel", "email": "maya@example.com", "present": true}
+  ]
+  
