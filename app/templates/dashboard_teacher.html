@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Dashboard</title>
-    <link rel="stylesheet" href="../static/css/dashboard_teacher.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_teacher.css') }}">
 </head>
 <body>
     <button class="menu">Menu</button> 
@@ -20,6 +20,11 @@
             <button class="quick-stats">Quick Stats</button>
         </div>
         <button class="create-class">Create New Class</button>
+
+        <form action="{{ url_for('auth.logout') }}" method="get" style="margin-top:20px;">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
     </div>
+    
 </body>
 </html>
