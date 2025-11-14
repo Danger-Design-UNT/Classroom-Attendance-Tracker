@@ -16,7 +16,6 @@ def create_app():
 
     app = Flask(__name__)
 
-    # Resolve absolute path to instance folder
     base_dir = os.path.abspath(os.path.dirname(__file__))
     db_path = os.path.join(base_dir, '..', 'instance', 'attendance.db')
 
