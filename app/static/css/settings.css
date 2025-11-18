@@ -1,0 +1,40 @@
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+/* profile section */
+.profile-info{
+    display: none;
+}
+.profile-info.active{
+    display: block;
+}
+
+/* security section */
+.security-info{
+    display: none;
+}
+.security-info.active{
+    display: block;
+}
+
+/* notification section */
+.notification-info{
+    display: none;
+}
+.notification-info.active{
+    display: block;
+}
+
+
+
+
+
+.logout {
+    list-style: none;
+    margin-top: 40px;
+    padding: 0;
+}

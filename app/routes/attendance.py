@@ -28,3 +28,9 @@ def student_dashboard():
 @role_required('teacher')
 def teacher_dashboard():
     return render_template('dashboard_teacher.html')
+
+
+@attendance_bp.route('/settings')
+@login_required
+def settings():
+    return render_template('settings.html')
