@@ -31,6 +31,10 @@ body {
     margin-right: auto;
 
 }
+.profile:hover{
+    background-color: rgb(189, 189, 189);
+    border-radius: 5px;
+}
 
 /* security section */
 .security-info{
@@ -44,6 +48,10 @@ body {
     background: none;
     border: none;
     margin-right: auto;
+}
+.security:hover{
+    background-color: rgb(189, 189, 189);
+    border-radius: 5px;
 }
 
 /* notification section */
@@ -60,6 +68,10 @@ body {
     margin-right: auto;
     overflow: auto;
     text-align: left;
+}
+.notification:active{
+    background-color: rgb(189, 189, 189);
+    border-radius: 5px;
 }
 
 
