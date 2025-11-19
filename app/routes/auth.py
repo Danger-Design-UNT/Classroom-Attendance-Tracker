@@ -38,7 +38,7 @@ def signup():
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
-@limiter.limit("5 per minute", key_func=get_remote_address)
+@limiter.limit("100 per minute", key_func=get_remote_address)
 def login():
     form = LoginForm()
     if form.validate_on_submit():

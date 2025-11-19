@@ -1,16 +1,35 @@
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background-color: rgb(235, 232, 232);
+  }
 
+  
 .container{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
+
+.settings-header{
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2.5rem;
+}
+
 /* profile section */
 .profile-info{
     display: none;
 }
 .profile-info.active{
     display: block;
+}
+.profile{
+    font-size: 3rem;
+    background: none;
+    border: none;
+    margin-right: auto;
+
 }
 
 /* security section */
@@ -20,6 +39,12 @@
 .security-info.active{
     display: block;
 }
+.security{
+    font-size: 3rem;
+    background: none;
+    border: none;
+    margin-right: auto;
+}
 
 /* notification section */
 .notification-info{
@@ -28,13 +53,27 @@
 .notification-info.active{
     display: block;
 }
+.notification{
+    font-size: 3rem;
+    background: none;
+    border: none;
+    margin-right: auto;
+    overflow: auto;
+    text-align: left;
+}
 
 
 
 
 
 .logout {
+    background: none;
+    border: none;
+    float: right;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    font-size: 2rem;
+    margin-top: 4rem;
     list-style: none;
-    margin-top: 40px;
-    padding: 0;
 }

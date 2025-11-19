@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h3>Settings</h3>
+        <h3 class="settings-header">Settings</h3>
 
         <button class="profile">Profile</button>
         <div class="profile-info">
@@ -30,7 +30,7 @@
             <button>Yes</button>
         </div>
 
-        <li><a class="logout" href="{{ url_for('auth.logout') }}">🚪 Logout</a></li>
+        <a class="logout" href="{{ url_for('auth.logout') }}">🚪 Logout</a>
 
     </div>
     <script>
@@ -41,15 +41,18 @@
         const securityInfo = document.querySelector('.security-info');
         const notificationInfo = document.querySelector('.notification-info');
 
-        profileBtn.onclick = () => {
+        
+        profileBtn.addEventListener('click', () => {
             profileInfo.classList.toggle('active');
-        }
-        securityBtn.onclick = () => {
+        });
+        securityBtn.addEventListener('click', () => {
             securityInfo.classList.toggle('active');
-        }
-        notificationBtn.onclick = () => {
+        }); 
+        notificationBtn.addEventListener('click', () => {
             notificationInfo.classList.toggle('active');
-        }
+        });
+
+
 
 
     </script>
