@@ -30,7 +30,9 @@
             <button>Yes</button>
         </div>
 
-        <a class="logout" href="{{ url_for('auth.logout') }}">🚪 Logout</a>
+        <a href="{{ url_for('attendance.student_dashboard')  }}" class="return">Return to dashboard</a>
+
+        <a class="logout" href="{{ url_for('auth.logout') }}">Sign out</a>
 
     </div>
     <script>
