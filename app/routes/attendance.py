@@ -34,3 +34,9 @@ def teacher_dashboard():
 @login_required
 def settings():
     return render_template('settings.html')
+
+
+@attendance_bp.route('/scan_qr')
+@login_required
+def scan_qr():
+    return render_template('qr.html')
