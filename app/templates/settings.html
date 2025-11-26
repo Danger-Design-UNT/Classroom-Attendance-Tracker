@@ -14,7 +14,12 @@
         <div class="profile-info">
             <div>Profile Picture</div>
             <div class="email">Email: {{ current_user.email }}</div>
-            <div>Name: </div>
+            <form action="{{ url_for('attendance.update_name') }}" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ current_user.name }}" required>
+            
+                <button type="submit">Save</button>
+            </form>
             <div>Role: {{ current_user.role }}</div>
         </div>
 

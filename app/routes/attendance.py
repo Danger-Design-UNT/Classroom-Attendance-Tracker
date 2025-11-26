@@ -1,6 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from functools import wraps
+from app import db
+
+
 
 attendance_bp = Blueprint('attendance', __name__)
 
@@ -40,3 +43,15 @@ def settings():
 @login_required
 def scan_qr():
     return render_template('qr.html')
+
+
+@attendance_bp.route('/update_name', methods=['POST'])
+@login_required
+def update_name():
+    new_name = request.form.get('name')
+
+    current_user.name = new_name
+    db.session.commit()
+
+    flash("Name updated successfully!", "success")
+    return redirect(url_for('attendance.settings'))
