@@ -1,4 +1,5 @@
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, url_for
+from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_limiter import Limiter
@@ -49,6 +50,17 @@ def create_app():
     from .routes.attendance import attendance_bp
     app.register_blueprint(auth_bp)
     app.register_blueprint(attendance_bp)
+
+    @app.route('/')
+    def landing():
+        if not current_user.is_authenticated:
+            return redirect(url_for('auth.login'))
+        if current_user.role == 'student':
+            return redirect(url_for('attendance.student_dashboard'))
+        elif current_user.role == 'teacher':
+            return redirect(url_for('attendance.teacher_dashboard'))
+        else:
+            return redirect(url_for('auth.login'))
 
     @app.before_request
     def enforce_https():
