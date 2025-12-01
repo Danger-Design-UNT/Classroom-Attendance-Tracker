@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>qr code page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/qr.css') }}">
+
+</head>
+<body>
+    <div class="container">
+        <div class="qr-container">
+            <div id="qr-reader" class="qr-reader" ></div>
+        </div>
+        <div id="qr-result"></div>
+        <a href="{{ url_for('attendance.student_dashboard') }}" class="return"> Return to dashboard</a>
+    </div>
+    
+    <script src="https://unpkg.com/html5-qrcode"></script><!-- qr scan library -->
+    <script src="{{ url_for('static', filename='js/qr.js') }}"></script> <!-- js file for qr code -->
+</body>
+</html>

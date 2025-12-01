@@ -4,14 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>student dashboard</title>
-    <link rel="stylesheet" href="../static/css/dashboard_student.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_student.css') }}">
 </head>
 <body>
     <div class="container">
-        <button class="menu">Menu</button> 
-        <h2 class="student-name">Welcome Student</h2> 
-        <button class="qr-scan">Scan Qr Code</button>
+
+
+        <button id="menu-btn" class="menu-btn">
+            ☰
+        </button>
+        
+        <div id="sidebar" class="sidebar">
+            <button id="close-btn" class="close-btn">×</button>
+
+            <ul class="sidebar-links">
+                <li><a href="{{ url_for('attendance.settings') }}">⚙️ Settings</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Sign out</a></li>
+            </ul>
+        </div>
+
+        <div id="overlay" class="overlay"></div>
+
+
+
+        <h2 class="student-name">Welcome Student {{ current_user.email }}</h2> 
+        <form action="{{ url_for('attendance.scan_qr') }}" method="get">
+            <button class="qr-scan">Scan Qr Code</button>
+        </form>
         <button class="attendance-view">View Attendance History</button>
     </div>
+
+    <script>
+        const menuBtn = document.getElementById("menu-btn");
+        const sidebar = document.getElementById("sidebar");
+        const closeBtn = document.getElementById("close-btn");
+        const overlay = document.getElementById("overlay");
+        
+        menuBtn.onclick = () => {
+            sidebar.classList.add("active");
+            overlay.classList.add("active");
+        };
+        
+        closeBtn.onclick = () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        };
+        
+        overlay.onclick = () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        };
+    </script>
+        
 </body>
 </html>

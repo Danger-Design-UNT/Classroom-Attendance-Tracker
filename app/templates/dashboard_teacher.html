@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Dashboard</title>
-    <link rel="stylesheet" href="../static/css/dashboard_teacher.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_teacher.css') }}">
 </head>
 <body>
-    <button class="menu">Menu</button> 
+
+
+    <button id="menu-btn" class="menu-btn">
+        ☰
+    </button>
+    <div id="sidebar" class="sidebar">
+        <button id="close-btn" class="close-btn">×</button>
+
+        <ul class="sidebar-links">
+            <li><a href="{{ url_for('attendance.settings') }}">⚙️ Settings</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Sign out  </a></li>
+        </ul>
+    </div>
+    <div id="overlay" class="overlay"></div>
+
+
+
     <div class="container">
         <h2 class="teacher-header">Teacher Dashboard</h2>
         <div class="view-container">
@@ -20,6 +36,29 @@
             <button class="quick-stats">Quick Stats</button>
         </div>
         <button class="create-class">Create New Class</button>
+
     </div>
+    <script>
+        const menuBtn = document.getElementById("menu-btn");
+        const sidebar = document.getElementById("sidebar");
+        const closeBtn = document.getElementById("close-btn");
+        const overlay = document.getElementById("overlay");
+        
+        menuBtn.onclick = () => {
+            sidebar.classList.add("active");
+            overlay.classList.add("active");
+        };
+        
+        closeBtn.onclick = () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        };
+        
+        overlay.onclick = () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        };
+    </script>
+    
 </body>
 </html>

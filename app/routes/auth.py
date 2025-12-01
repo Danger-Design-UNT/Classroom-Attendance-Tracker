@@ -4,6 +4,9 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.models import User
 from app import db
 from app.forms import SignupForm, LoginForm
+from app import limiter
+from flask_limiter.util import get_remote_address
+
 
 
 
@@ -35,6 +38,7 @@ def signup():
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
+@limiter.limit("100 per minute", key_func=get_remote_address)
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -69,4 +73,10 @@ def logout():
 @auth_bp.route('/dashboard')
 @login_required
 def dashboard():
-    return "Welcome! You’re logged in."
+    if current_user.role == 'teacher':
+        return redirect(url_for('attendance.teacher_dashboard'))
+    elif current_user.role == 'student':
+        return redirect(url_for('attendance.student_dashboard'))
+    else:
+        flash('Unknown role.', 'danger')
+        return redirect(url_for('auth.login'))
