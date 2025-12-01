@@ -45,6 +45,22 @@ def scan_qr():
     return render_template('qr.html')
 
 
+@attendance_bp.route('/create_class', methods=['GET', 'POST'])
+@login_required
+def create_class():
+    if request.method == 'POST':
+        class_name = request.form.get('class_name')
+        flash("Class created successfully!", "success")
+        return redirect(url_for('attendance.teacher_dashboard'))
+    return render_template('create_class.html')
+
+
+@attendance_bp.route('/qr_generate/<int:classid>', methods=['POST', 'GET'])
+@login_required
+def qr_generate():
+    return render_template('qr_generate.html', classid=1) # Placeholder for class ID until class management is implemented fully
+
+
 @attendance_bp.route('/update_name', methods=['POST'])
 @login_required
 def update_name():
