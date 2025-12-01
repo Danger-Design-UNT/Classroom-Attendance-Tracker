@@ -34,5 +34,9 @@ def create_app():
     from .routes.attendance import attendance_bp
     app.register_blueprint(attendance_bp)
 
+    from .routes.r4 import r4_bp
+    app.register_blueprint(r4_bp)
+
+
 
     return app
