@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>View Classes</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/view_classes.css') }}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Your Classes</h1>
+            <ul class="class-list">
+                {% for c in classes %}
+                    <li class="class-item">{{ c.class_name, c.class_section }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <form action="{{ url_for('attendance.teacher_dashboard') }}" method="get">
+            <button class="create-class">Return to Dashboard</button>
+        </form>
+    </body>
+</html>

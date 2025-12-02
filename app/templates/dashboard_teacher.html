@@ -28,15 +28,18 @@
         <h2 class="teacher-header">Teacher Dashboard</h2>
         <div class="view-container">
             <button class="view-attendance">View Attendance Table</button>
+        <form action="{{ url_for('attendance.view_classes') }}" method="get">
             <button class="view-all-classes">View All Classes</button>
+        </form>
         </div>
         <button class="qr-generate">Generate/View QR Code</button>
         <div class="bottom-container">
             <button class="today-class">Today Session's</button>
             <button class="quick-stats">Quick Stats</button>
         </div>
-        <button class="create-class">Create New Class</button>
-
+        <form action="{{ url_for('attendance.create_class') }}" method="get">
+            <button class="create-class">Create New Class</button>
+        </form>
     </div>
     <script>
         const menuBtn = document.getElementById("menu-btn");
