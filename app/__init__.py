@@ -1,8 +1,10 @@
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, url_for
+from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
 
@@ -10,6 +12,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 limiter = Limiter(key_func=get_remote_address)
+migrate = Migrate()
 
 def create_app():
     load_dotenv()
@@ -33,6 +36,7 @@ def create_app():
     )
 
     db.init_app(app)
+    migrate.init_app(app, db)
     login_manager.init_app(app)
     limiter.init_app(app)
 
@@ -49,6 +53,17 @@ def create_app():
     from .routes.attendance import attendance_bp
     app.register_blueprint(auth_bp)
     app.register_blueprint(attendance_bp)
+
+    @app.route('/')
+    def landing():
+        if not current_user.is_authenticated:
+            return redirect(url_for('auth.login'))
+        if current_user.role == 'student':
+            return redirect(url_for('attendance.student_dashboard'))
+        elif current_user.role == 'teacher':
+            return redirect(url_for('attendance.teacher_dashboard'))
+        else:
+            return redirect(url_for('auth.login'))
 
     @app.before_request
     def enforce_https():
