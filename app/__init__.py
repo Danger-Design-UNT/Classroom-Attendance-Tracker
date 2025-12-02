@@ -54,6 +54,9 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(attendance_bp)
 
+    from .routes.r4 import r4_bp
+    app.register_blueprint(r4_bp)
+
     @app.route('/')
     def landing():
         if not current_user.is_authenticated:
