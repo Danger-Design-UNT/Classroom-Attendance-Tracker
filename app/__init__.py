@@ -28,7 +28,7 @@ def create_app():
 
 
     app.config.update(
-        SESSION_COOKIE_SECURE=True,
+        SESSION_COOKIE_SECURE=False, #turn to True in production with HTTPS
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE='Lax',
         REMEMBER_COOKIE_HTTPONLY=True,
@@ -68,10 +68,10 @@ def create_app():
         else:
             return redirect(url_for('auth.login'))
 
-    @app.before_request
-    def enforce_https():
-        if not app.debug and not request.is_secure:
-            url = request.url.replace("http://", "https://", 1)
-            return redirect(url, code=301)
+    # @app.before_request
+    # def enforce_https():
+    #     if not app.debug and not request.is_secure:
+    #         url = request.url.replace("http://", "https://", 1)
+    #         return redirect(url, code=301)
 
     return app

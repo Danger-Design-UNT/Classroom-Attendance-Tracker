@@ -27,7 +27,7 @@
 
 
 
-        <h2 class="student-name">Welcome Student {{ current_user.email }}</h2> 
+        <h2 class="student-name">Welcome Student {{ current_user.name }}</h2> 
         <form action="{{ url_for('attendance.scan_qr') }}" method="get">
             <button class="qr-scan">Scan Qr Code</button>
         </form>
