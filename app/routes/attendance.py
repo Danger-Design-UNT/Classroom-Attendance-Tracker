@@ -22,11 +22,12 @@ def role_required(role):
     return decorator
 
 
+
+# dashboard routes
 @attendance_bp.route('/dashboard/student')
 @role_required('student')
 def student_dashboard():
     return render_template('dashboard_student.html')
-
 
 @attendance_bp.route('/dashboard/teacher')
 @role_required('teacher')
@@ -34,10 +35,19 @@ def teacher_dashboard():
     return render_template('dashboard_teacher.html')
 
 
+
+# settings routes
 @attendance_bp.route('/settings')
 @login_required
 def settings():
     return render_template('settings.html')
+
+@attendance_bp.route('/settings/teacher')
+@role_required('teacher')
+def teacher_settings():
+    return render_template('settings_teacher.html')
+
+
 
 
 @attendance_bp.route('/scan_qr')

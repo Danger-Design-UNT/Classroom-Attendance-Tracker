@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/settings_teacher.css') }}">
+    <title>settings</title>
+</head>
+<body>
+    <div class="container">
+        <h3 class="settings-header">Settings</h3>
+
+        <button class="profile">Profile</button>
+        <div class="profile-info">
+            <div>Profile Picture</div>
+            <div class="email">Email: {{ current_user.email }}</div>
+            <form action="{{ url_for('attendance.update_name') }}" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ current_user.name }}" required>
+            
+                <button type="submit">Save</button>
+            </form>
+            <div>Role: {{ current_user.role }}</div>
+        </div>
+
+        <button class="security">Security</button>
+        <div class="security-info">
+            <div>Change Password</div>
+            <div>Enable 2FA</div>
+        </div>
+
+        <button class="notification">Notification settings</button>
+        <div class="notification-info">
+            <div>Attendance Alerts</div>
+            <button>Yes</button>
+        </div>
+
+        <a href="{{ url_for('attendance.teacher_dashboard')  }}" class="return">Return to dashboard</a>
+
+        <a class="logout" href="{{ url_for('auth.logout') }}">Sign out</a>
+
+    </div>
+    <script>
+        const profileBtn = document.querySelector('.profile');
+        const securityBtn = document.querySelector('.security');
+        const notificationBtn = document.querySelector('.notification');
+        const profileInfo = document.querySelector('.profile-info');
+        const securityInfo = document.querySelector('.security-info');
+        const notificationInfo = document.querySelector('.notification-info');
+
+        
+        profileBtn.addEventListener('click', () => {
+            profileInfo.classList.toggle('active');
+        });
+        securityBtn.addEventListener('click', () => {
+            securityInfo.classList.toggle('active');
+        }); 
+        notificationBtn.addEventListener('click', () => {
+            notificationInfo.classList.toggle('active');
+        });
+
+
+
+
+    </script>
+</body>
+</html>
