@@ -45,6 +45,10 @@ def settings():
 def scan_qr():
     return render_template('qr.html')
 
+@attendance_bp.route('/StudentAttendanceHistory')
+@role_required('student')
+def student_attendance_history():
+    return render_template('student_attendance_history.html')
 
 @attendance_bp.route('/create_class', methods=['GET', 'POST'])
 @login_required
