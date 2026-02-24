@@ -26,20 +26,37 @@
 
     <div class="container">
         <h2 class="teacher-header">Teacher Dashboard</h2>
+
         <div class="view-container">
-            <button class="view-attendance">View Attendance Table</button>
-        <form action="{{ url_for('attendance.view_classes') }}" method="get">
-            <button class="view-all-classes">View All Classes</button>
+            <!-- view the attendance -->
+            <form method="get">
+                <button class="view-attendance">View Attendance Table</button>
+            </form>
+            <!-- view all the classes -->
+            <form action="{{ url_for('attendance.view_classes') }}" method="get">
+                <button class="view-all-classes">View All Classes</button>
+            </form>
+        </div>
+        <!-- generate qr code -->
+        <form method="get">
+            <button class="qr-generate">Generate/View QR Code</button>
         </form>
-        </div>
-        <button class="qr-generate">Generate/View QR Code</button>
+
         <div class="bottom-container">
-            <button class="today-class">Today Session's</button>
-            <button class="quick-stats">Quick Stats</button>
+            <!-- view todays sessions -->
+            <form method="get">
+                <button class="today-class">Today Session's</button>
+            </form>
+            <!-- view the stats -->
+            <form method="get">
+                <button class="quick-stats">Quick Stats</button>
+            </form>
         </div>
+        <!--Create a new class -->
         <form action="{{ url_for('attendance.create_class') }}" method="get">
             <button class="create-class">Create New Class</button>
         </form>
+
     </div>
     <script>
         const menuBtn = document.getElementById("menu-btn");
