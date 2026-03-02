@@ -29,7 +29,7 @@
 
         <div class="view-container">
             <!-- view the attendance -->
-            <form method="get">
+            <form action="{{ url_for('attendance.view_attendance') }}" method="get">
                 <button class="view-attendance">View Attendance Table</button>
             </form>
             <!-- view all the classes -->

@@ -98,18 +98,18 @@ def update_name():
 def quick_stats():
     return render_template('quick_stats.html')
 
-@attendance_bp.route('/qr_generate/<int:classid>', methods=['POST', 'GET'])
+@attendance_bp.route('/qr_generate')
 @login_required
 def qr_generate():
-    return render_template('qr_generate.html', classid=1) # Placeholder for class ID until class management is implemented fully
+    return render_template('qr_generate.html')
 
 @attendance_bp.route('/todays_sessions')
 @role_required('teacher')
 def todays_sessions():
     return render_template('todays_sessions.html')
 
-@attendance_bp.route('/view_attendance/<int:classid>')
+@attendance_bp.route('/view_attendance>')
 @role_required('teacher')
 def view_attendance(classid):
-    return render_template('view_attendance.html', classid=classid)
+    return render_template('view_attendance.html')
 
