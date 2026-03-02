@@ -47,9 +47,6 @@ def settings():
 def teacher_settings():
     return render_template('settings_teacher.html')
 
-
-
-
 @attendance_bp.route('/scan_qr')
 @login_required
 def scan_qr():
@@ -82,12 +79,6 @@ def view_classes():
     return render_template('view_classes.html', classes=classes)
 
 
-@attendance_bp.route('/qr_generate/<int:classid>', methods=['POST', 'GET'])
-@login_required
-def qr_generate():
-    return render_template('qr_generate.html', classid=1) # Placeholder for class ID until class management is implemented fully
-
-
 @attendance_bp.route('/update_name', methods=['POST'])
 @login_required
 def update_name():
@@ -98,3 +89,27 @@ def update_name():
 
     flash("Name updated successfully!", "success")
     return redirect(url_for('attendance.settings'))
+
+
+# teacher dashboard routes
+
+@attendance_bp.route('/quick_stats')
+@role_required('teacher')
+def quick_stats():
+    return render_template('quick_stats.html')
+
+@attendance_bp.route('/qr_generate/<int:classid>', methods=['POST', 'GET'])
+@login_required
+def qr_generate():
+    return render_template('qr_generate.html', classid=1) # Placeholder for class ID until class management is implemented fully
+
+@attendance_bp.route('/todays_sessions')
+@role_required('teacher')
+def todays_sessions():
+    return render_template('todays_sessions.html')
+
+@attendance_bp.route('/view_attendance/<int:classid>')
+@role_required('teacher')
+def view_attendance(classid):
+    return render_template('view_attendance.html', classid=classid)
+
