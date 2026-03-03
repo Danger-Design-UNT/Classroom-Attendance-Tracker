@@ -101,7 +101,7 @@ def quick_stats():
 @attendance_bp.route('/qr_generate')
 @login_required
 def qr_generate():
-    return render_template('qr_generate.html')
+    return render_template('generate_qr.html')
 
 @attendance_bp.route('/todays_sessions')
 @role_required('teacher')
