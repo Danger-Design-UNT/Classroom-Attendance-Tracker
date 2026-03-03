@@ -8,9 +8,52 @@
 </head>
 <body>
     
-    <div class="container">
-        <div>
-            
+    <div class="container-total">
+        <div class="header">
+            Generate QR Code
+        </div>
+
+        <div class="qr-page-wrapper">
+
+            <h2>Generate Attendance QR Code</h2>
+
+            {% if message %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+            {% endif %}
+
+            <form method="POST">
+                <div class="form-group">
+                    <label class="form-label">QR code Link</label>
+                    <input type="text" class="form-control" name="data" 
+                        placeholder="https://your-app.com/attend?..." 
+                        value="https://example.com/attendance/demo" disabled>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Generate QR Code
+                </button>
+            </form>
+
+            {% if qr_image_url %}
+            <div class="qr-preview">
+                <h4>Generated QR Code</h4>
+                <div class="qr-image-container">
+                    <img src="{{ qr_image_url }}" alt="QR Code" class="qr-image">
+                </div>
+                <p class="text-muted">
+                    Scan this with your phone to test (currently points to a demo link)
+                </p>
+            </div>
+            {% else %}
+            <div class="no-qr-yet">
+                <p class="text-muted">
+                    Submit the form to generate a QR code.
+                </p>
+            </div>
+            {% endif %}
+
         </div>
 
         <a href="{{ url_for('attendance.teacher_dashboard')  }}" class="return">Return to dashboard</a>
