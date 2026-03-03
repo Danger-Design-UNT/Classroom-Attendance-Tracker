@@ -21,7 +21,10 @@ def signup():
             flash('Email already registered.', 'danger')
             return redirect(url_for('auth.signup'))
         
-        hashed_password = generate_password_hash(form.password.data)
+        hashed_password = generate_password_hash(
+            form.password.data,
+            method="pbkdf2:sha256"
+        )
         new_user = User(
             email=form.email.data,
             password_hash=hashed_password,
