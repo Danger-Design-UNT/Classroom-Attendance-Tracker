@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Class</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/create-class.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create_class.css') }}">
 </head>
 
     <body>
         <div class="container">
             <h1>Create a New Class</h1>
-            <form action="{{ url_for('attendance.create_class') }}" method="post">
+            <form  class="mid-section" action="{{ url_for('attendance.create_class') }}" method="post">
                 <label for="class_name">Class Name:</label>
                 <input type="text" id="class_name" name="class_name" required>
                 <label for="class_section">Class Section:</label>
