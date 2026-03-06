@@ -4,4 +4,4 @@ instance/config.py
 *.pyc
 .env
 instance/
-*.db
+*.dbgit add .gitignore
