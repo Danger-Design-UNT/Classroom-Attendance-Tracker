@@ -15,10 +15,10 @@
                 <input type="text" id="class_name" name="class_name" required>
                 <label for="class_section">Class Section:</label>
                 <input type="text" id="class_section" name="class_section" required>
-                <button type="submit">Create Class</button>
+                <button class="create-class" type="submit">Create Class</button>
             </form>
             <form action="{{ url_for('attendance.teacher_dashboard') }}" method="get">
-            <button class="create-class">Return to Dashboard</button>
+            <button class="return">Return to Dashboard</button>
             </form>
         </div>
     </body>

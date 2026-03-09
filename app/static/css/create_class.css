@@ -25,12 +25,29 @@ input[type="text"], input[type="number"]{
 
 .return{
     background: none;
+    /* border: none; */
     float: right;
     cursor: pointer;
     text-decoration: none;
     color: rgb(41, 41, 41);
-    font-size: 2rem;
-    margin-top: 5rem;
+    font-size: 1.5rem;
+    margin-top: 3rem;
+    list-style: none;
+    border: 3px solid rgb(150, 150, 150);
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.create-class{
+    background: none;
+    /* border: none; */
+    float: right;
+    cursor: pointer;
+    text-decoration: none;
+    color: rgb(41, 41, 41);
+    font-size: 1.5rem;
+    margin-top: 2rem;
     list-style: none;
     border: 3px solid rgb(150, 150, 150);
     border-radius: 10px;
