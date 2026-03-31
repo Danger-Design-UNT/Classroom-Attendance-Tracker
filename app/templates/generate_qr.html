@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>generate qr <code></code></title>
+    <title>Generate QR Code - Classroom Attendance</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/generate_qr.css') }}">
 </head>
 <body>
@@ -25,10 +25,15 @@
 
             <form method="POST">
                 <div class="form-group">
-                    <label class="form-label">QR code Link</label>
-                    <input type="text" class="form-control" name="data" 
-                        placeholder="https://your-app.com/attend?..." 
-                        value="https://example.com/attendance/demo" disabled>
+                    <label class="form-label">Attendance Link</label>
+                    <input type="url" class="form-control" name="data" 
+                           placeholder="https://your-app.com/mark_attendance/5"
+                           value="https://your-app.com/mark_attendance/" 
+                           required>
+                    <small class="form-text text-muted">
+                        Paste the full attendance link here.<br>
+                        Example: <code>https://your-app.com/mark_attendance/3</code> (replace 3 with your class ID)
+                    </small>
                 </div>
 
                 <button type="submit" class="btn btn-primary">
@@ -38,27 +43,31 @@
 
             {% if qr_image_url %}
             <div class="qr-preview">
-                <h4>Generated QR Code</h4>
+                <h4>✅ Generated QR Code</h4>
                 <div class="qr-image-container">
                     <img src="{{ qr_image_url }}" alt="QR Code" class="qr-image">
                 </div>
                 <p class="text-muted">
-                    Scan this with your phone to test (demo link)
+                    Show this QR code to students. When they scan it, they will be marked present.
                 </p>
+                <a href="{{ qr_image_url }}" download="attendance-qr-code.png" class="btn btn-success">
+                    Download QR Code
+                </a>
             </div>
             {% else %}
             <div class="no-qr-yet">
                 <p class="text-muted">
-                    Submit the form to generate a QR code.
+                    Enter the attendance link above and click "Generate QR Code".
                 </p>
             </div>
             {% endif %}
 
         </div>
 
-        <a href="{{ url_for('attendance.teacher_dashboard')  }}" class="return">Return to dashboard</a>
+        <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return">
+            ← Return to Teacher Dashboard
+        </a>
     </div>
-
 
 </body>
 </html>
