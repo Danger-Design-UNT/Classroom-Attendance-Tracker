@@ -45,10 +45,10 @@ button{
 
 }
 
-.qr-generate{
+.qr-generate-btn{
     width: 15rem;
-    height: 15rem;
-    font-size: 2rem;
+    height: 8rem;
+    font-size: 1.2rem;
 }
 
 .bottom-container{
