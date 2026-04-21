@@ -12,10 +12,15 @@
             <ul class="class-list">
                 {% for c in classes %}
                     <li class="class-item">
-                        {{ c.class_name }} ({{ c.class_section }})
-                        <a href="{{ url_for('r4.list_students', class_id=c.id) }}">Roster (R4)</a>
-                   </li>
-                {% endfor %}
+                        <a href="{{ url_for('attendance.view_attendance', class_id=c.id) }}">
+                            {{ c.class_name }} ({{ c.class_section }})
+                        </a>
+
+                        <a href="{{ url_for('r4.list_students', class_id=c.id) }}">
+                            Roster (R4)
+                        </a>
+</li>
+{% endfor %}
             </ul>
         </div>
         <form action="{{ url_for('attendance.teacher_dashboard') }}" method="get">

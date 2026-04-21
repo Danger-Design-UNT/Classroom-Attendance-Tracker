@@ -6,7 +6,8 @@ from app.models import Class, Attendance, Student
 import qrcode
 import io
 import base64
-from datetime import datetime
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 attendance_bp = Blueprint('attendance', __name__)
 
@@ -109,11 +110,11 @@ def quick_stats():
 def todays_sessions():
     return render_template('todays_sessions.html')
 
-
-@attendance_bp.route('/view_attendance')
+@attendance_bp.route('/view_attendance/<int:class_id>')
 @role_required('teacher')
-def view_attendance():
-    return render_template('view_attendance.html')
+def view_attendance(class_id):
+    records = Attendance.query.filter_by(class_id=class_id).all()
+    return render_template('view_attendance_table.html', records=records, class_id=class_id)
 
 
 # ==================== Generate QR Code - Main Feature ====================
@@ -211,9 +212,10 @@ def mark_attendance(class_id):
 def scan_qr():
     return render_template('qr.html')
 # ==================== Student Attendance History ====================
-@attendance_bp.route('/student_attendance_history')
+@attendance_bp.route('/StudentAttendanceHistory')
 @role_required('student')
 def student_attendance_history():
-    # For now, just render the template with empty data
-    # We'll improve this later to show real attendance records
-    return render_template('student_attendance_history.html')
+    student = Student.query.filter_by(email=current_user.email).first()
+    records = Attendance.query.filter_by(student_id=student.id).all() if student else []
+    return render_template('student_attendance_history.html', records=records)
+
