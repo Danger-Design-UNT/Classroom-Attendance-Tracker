@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Stats</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/quick_stats.css') }}">
 </head>
 <body>
     <div class="container">
-        <div>Student Stats</div>
-
-    </div>
-
+            <h1>Quick Stats</h1>
+            
+</li>
+            </ul>
+        </div>
+        <form action="{{ url_for('attendance.teacher_dashboard') }}" method="get">
+            <button class="create-class">Return to Dashboard</button>
+        </form>
 </body>
 </html>
