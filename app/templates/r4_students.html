@@ -22,6 +22,7 @@
         th { background: #f3f3f3; }
         tr:nth-child(even) { background: #fafafa; }
     </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/r4.css') }}">
 </head>
 <body>
 
@@ -60,6 +61,8 @@
 {% else %}
 <p>No students enrolled yet.</p>
 {% endif %}
-
+ <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return">
+    ← Return to Dashboard
+</a>
 </body>
 </html>
