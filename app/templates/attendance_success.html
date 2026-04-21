@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Marked</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_student.css') }}">
+    <style>
+        .success-container {
+            max-width: 500px;
+            margin: 80px auto;
+            text-align: center;
+            padding: 40px 20px;
+            background: #f8fff9;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .success-title {
+            color: #28a745;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .class-name {
+            font-size: 20px;
+            color: #555;
+            margin: 15px 0;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 30px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">✅</div>
+        <h1 class="success-title">Attendance Marked Successfully!</h1>
+        
+        {% if class_name %}
+        <p class="class-name">for <strong>{{ class_name }}</strong></p>
+        {% endif %}
+
+        <p>Thank you! Your attendance has been recorded for today.</p>
+
+        <a href="{{ url_for('attendance.student_dashboard') }}" class="btn">
+            ← Back to Student Dashboard
+        </a>
+    </div>
+</body>
+</html>

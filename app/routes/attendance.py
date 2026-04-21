@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
+from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required, current_user
 from functools import wraps
 from app import db
@@ -10,17 +10,20 @@ from datetime import datetime
 
 attendance_bp = Blueprint('attendance', __name__)
 
+
+# ==================== Role Required Decorator ====================
 def role_required(role):
     def decorator(f):
         @wraps(f)
         @login_required
         def wrapped(*args, **kwargs):
-            if current_user.role != role:
+            if getattr(current_user, 'role', None) != role:
                 flash("Access denied.", "danger")
                 return redirect(url_for('auth.login'))
             return f(*args, **kwargs)
         return wrapped
     return decorator
+
 
 # ==================== Dashboard Routes ====================
 @attendance_bp.route('/dashboard/student')
@@ -28,11 +31,11 @@ def role_required(role):
 def student_dashboard():
     return render_template('dashboard_student.html')
 
+
 @attendance_bp.route('/dashboard/teacher')
 @role_required('teacher')
 def teacher_dashboard():
     return render_template('dashboard_teacher.html')
-
 
 
 # ==================== Settings Routes ====================
@@ -41,111 +44,114 @@ def teacher_dashboard():
 def settings():
     return render_template('settings.html')
 
+
 @attendance_bp.route('/settings/teacher')
 @role_required('teacher')
 def teacher_settings():
     return render_template('settings_teacher.html')
 
-@attendance_bp.route('/scan_qr')
-@login_required
-def scan_qr():
-    return render_template('qr.html')
 
-@attendance_bp.route('/StudentAttendanceHistory')
-@role_required('student')
-def student_attendance_history():
-    return render_template('student_attendance_history.html')
-
+# ==================== Class Management ====================
 @attendance_bp.route('/create_class', methods=['GET', 'POST'])
-@login_required
+@role_required('teacher')
 def create_class():
     if request.method == 'POST':
-        class_name = request.form.get('class_name')
-        class_section = request.form.get('class_section')
+        class_name = request.form.get('class_name', '').strip()
+        class_section = request.form.get('class_section', '').strip()
 
-        new_class = Class(class_name=class_name, class_section=class_section, user_id=current_user.id)
-        db.session.add(new_class)
-        db.session.commit()
+        if not class_name:
+            flash("Class name is required.", "danger")
+            return render_template('create_class.html')
 
-        flash("Class created successfully!", "success")
-        return redirect(url_for('attendance.teacher_dashboard'))
+        # Check for duplicate class for this teacher
+        existing = Class.query.filter_by(
+            user_id=current_user.id,
+            class_name=class_name,
+            class_section=class_section
+        ).first()
+
+        if existing:
+            flash("You already have a class with this name and section.", "warning")
+        else:
+            try:
+                new_class = Class(
+                    class_name=class_name,
+                    class_section=class_section,
+                    user_id=current_user.id
+                )
+                db.session.add(new_class)
+                db.session.commit()
+                flash(f"Class '{class_name}' created successfully!", "success")
+                return redirect(url_for('attendance.teacher_dashboard'))
+            except Exception as e:
+                db.session.rollback()
+                flash("An error occurred while creating the class. Please try again.", "danger")
+
     return render_template('create_class.html')
 
+
 @attendance_bp.route('/view_classes')
-@login_required
+@role_required('teacher')
 def view_classes():
     classes = Class.query.filter_by(user_id=current_user.id).all()
     return render_template('view_classes.html', classes=classes)
 
 
-@attendance_bp.route('/update_name', methods=['POST'])
-@login_required
-def update_name():
-    new_name = request.form.get('name')
-
-    current_user.name = new_name
-    db.session.commit()
-
-    flash("Name updated successfully!", "success")
-    return redirect(url_for('attendance.settings'))
-
-
-# ==================== Teacher Dashboard Routes ====================
-
+# ==================== Placeholder Routes (to stop BuildError) ====================
 @attendance_bp.route('/quick_stats')
 @role_required('teacher')
 def quick_stats():
     return render_template('quick_stats.html')
+
 
 @attendance_bp.route('/todays_sessions')
 @role_required('teacher')
 def todays_sessions():
     return render_template('todays_sessions.html')
 
-@attendance_bp.route('/view_attendance>')
+
+@attendance_bp.route('/view_attendance')
 @role_required('teacher')
-def view_attendance(classid):
+def view_attendance():
     return render_template('view_attendance.html')
 
 
-# ==================== Generate qr code routes logic ====================
-
-
+# ==================== Generate QR Code - Main Feature ====================
 @attendance_bp.route('/qr-generate', methods=['GET', 'POST'])
 @role_required('teacher')
 def qr_generate():
+    classes = Class.query.filter_by(user_id=current_user.id).all()
     qr_image_url = None
     message = None
-    classes = Class.query.filter_by(user_id=current_user.id).all()   # show teacher's classes
 
     if request.method == 'POST':
-        # Get the link the teacher wants in the QR (from the form)
-        data_to_encode = request.form.get('data')
+        class_id = request.form.get('class_id')
+        
+        if class_id and class_id.strip():
+            data_to_encode = url_for('attendance.mark_attendance', class_id=class_id, _external=True)
+        else:
+            data_to_encode = request.form.get('data')
 
-        if not data_to_encode or data_to_encode.strip() == "":
-            flash("Please enter a valid attendance link", "danger")
-            return render_template('generate_qr.html', qr_image_url=None, message=None, classes=classes)
+        if not data_to_encode or not data_to_encode.strip():
+            flash("Please select a class or enter a valid attendance link", "danger")
+        else:
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(data_to_encode)
+            qr.make(fit=True)
 
-        # Generate QR
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
-            border=4,
-        )
-        qr.add_data(data_to_encode)
-        qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            img_io = io.BytesIO()
+            img.save(img_io, 'PNG')
+            img_io.seek(0)
 
-        img = qr.make_image(fill_color="black", back_color="white")
-
-        img_io = io.BytesIO()
-        img.save(img_io, 'PNG')
-        img_io.seek(0)
-
-        img_base64 = base64.b64encode(img_io.getvalue()).decode('utf-8')
-        qr_image_url = f"data:image/png;base64,{img_base64}"
-
-        message = "✅ QR Code generated successfully! Share or display it."
+            img_base64 = base64.b64encode(img_io.getvalue()).decode('utf-8')
+            qr_image_url = f"data:image/png;base64,{img_base64}"
+            message = "✅ QR Code generated successfully! Show this to your students."
 
     return render_template(
         'generate_qr.html',
@@ -155,18 +161,25 @@ def qr_generate():
     )
 
 
+# ==================== Mark Attendance (QR Redirect Target) ====================
 @attendance_bp.route('/mark_attendance/<int:class_id>')
 @role_required('student')
 def mark_attendance(class_id):
-    # Find or create student record for the logged-in user
+    class_obj = Class.query.get_or_404(class_id)   # Better error handling
+
+    # Get or create student
     student = Student.query.filter_by(email=current_user.email).first()
     if not student:
-        student = Student(name=current_user.name or "Student", email=current_user.email)
+        student = Student(
+            name=current_user.name or current_user.email.split('@')[0],
+            email=current_user.email
+        )
         db.session.add(student)
         db.session.commit()
 
-    # Check if already marked today for this class
     today = datetime.utcnow().date()
+
+    # Check if already marked today
     existing = Attendance.query.filter(
         Attendance.student_id == student.id,
         Attendance.class_id == class_id,
@@ -174,15 +187,33 @@ def mark_attendance(class_id):
     ).first()
 
     if existing:
-        flash("✅ You are already marked present for this class today!", "info")
-    else:
-        new_attendance = Attendance(
-            student_id=student.id,
-            class_id=class_id,
-            timestamp=datetime.utcnow()
-        )
-        db.session.add(new_attendance)
-        db.session.commit()
-        flash("🎉 Attendance marked successfully!", "success")
+        return render_template('attendance_success.html', 
+                               class_name=class_obj.class_name, 
+                               already_marked=True)
 
-    return redirect(url_for('attendance.student_dashboard'))
+    # Mark attendance
+    new_attendance = Attendance(
+        student_id=student.id,
+        class_id=class_id,
+        timestamp=datetime.utcnow()
+    )
+    db.session.add(new_attendance)
+    db.session.commit()
+
+    return render_template('attendance_success.html', 
+                           class_name=class_obj.class_name, 
+                           already_marked=False)
+    
+    
+# ==================== Student QR Scanner ====================
+@attendance_bp.route('/scan_qr')
+@role_required('student')
+def scan_qr():
+    return render_template('qr.html')
+# ==================== Student Attendance History ====================
+@attendance_bp.route('/student_attendance_history')
+@role_required('student')
+def student_attendance_history():
+    # For now, just render the template with empty data
+    # We'll improve this later to show real attendance records
+    return render_template('student_attendance_history.html')

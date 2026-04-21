@@ -3,23 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Class</title>
+    <title>Create New Class</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/create_class.css') }}">
 </head>
+<body>
+    <div class="container">
+        <h1>Create a New Class</h1>
 
-    <body>
-        <div class="container">
-            <h1>Create a New Class</h1>
-            <form  class="mid-section" action="{{ url_for('attendance.create_class') }}" method="post">
-                <label for="class_name">Class Name:</label>
-                <input type="text" id="class_name" name="class_name" required>
-                <label for="class_section">Class Section:</label>
-                <input type="text" id="class_section" name="class_section" required>
-                <button class="create-class" type="submit">Create Class</button>
-            </form>
-            <form action="{{ url_for('attendance.teacher_dashboard') }}" method="get">
-            <button class="return">Return to Dashboard</button>
-            </form>
-        </div>
-    </body>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form class="mid-section" method="POST">
+            <div class="form-group">
+                <label for="class_name">Class Name <span class="required">*</span></label>
+                <input type="text" id="class_name" name="class_name" 
+                       placeholder="e.g. CSCE 4901" required>
+            </div>
+
+            <div class="form-group">
+                <label for="class_section">Class Section</label>
+                <input type="text" id="class_section" name="class_section" 
+                       placeholder="e.g. 001 or Fall 2026">
+            </div>
+
+            <button type="submit" class="create-class">Create Class</button>
+        </form>
+
+        <form action="{{ url_for('attendance.teacher_dashboard') }}" method="get">
+            <button type="submit" class="return">← Return to Dashboard</button>
+        </form>
+    </div>
+</body>
 </html>

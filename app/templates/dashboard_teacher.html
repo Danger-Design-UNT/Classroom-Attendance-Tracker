@@ -3,82 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard</title>
+    <title>Teacher Dashboard - Classroom Attendance</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_teacher.css') }}">
 </head>
 <body>
+    
+    <button id="menu-btn" class="menu-btn">☰</button>
 
-
-    <button id="menu-btn" class="menu-btn">
-        ☰
-    </button>
     <div id="sidebar" class="sidebar">
         <button id="close-btn" class="close-btn">×</button>
-
         <ul class="sidebar-links">
             <li><a href="{{ url_for('attendance.teacher_settings') }}">Settings</a></li>
-            <li><a href="{{ url_for('auth.logout') }}">Sign out  </a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
         </ul>
     </div>
+
     <div id="overlay" class="overlay"></div>
-
-
 
     <div class="container">
         <h2 class="teacher-header">Teacher Dashboard</h2>
 
+        
+        <div class="qr-section">
+            <a href="{{ url_for('attendance.qr_generate') }}" class="qr-link">
+                <button class="qr-generate-btn">
+                    Generate QR Code for Attendance
+                </button>
+            </a>
+        </div>
+
         <div class="view-container">
-            <!-- view the attendance -->
+            <!-- View Attendance -->
             <form action="{{ url_for('attendance.view_attendance') }}" method="get">
-                <button class="view-attendance">View Attendance Table</button>
+                <button type="submit" class="view-attendance">View Attendance Table</button>
             </form>
-            <!-- view all the classes -->
+
+            <!-- View All Classes -->
             <form action="{{ url_for('attendance.view_classes') }}" method="get">
-                <button class="view-all-classes">View All Classes</button>
+                <button type="submit" class="view-all-classes">View All Classes</button>
             </form>
         </div>
-        <!-- generate qr code -->
-        <form action="{{ url_for('attendance.qr_generate') }}" method="get">
-            <button class="qr-generate">Generate/View QR Code</button>
-        </form>
 
         <div class="bottom-container">
-            <!-- view todays sessions -->
+            <!-- Today's Sessions -->
             <form action="{{ url_for('attendance.todays_sessions') }}" method="get">
-                <button class="today-class">Today's Sessions</button>
+                <button type="submit" class="today-class">Today's Sessions</button>
             </form>
-            <!-- view the stats -->
+
+            <!-- Quick Stats -->
             <form action="{{ url_for('attendance.quick_stats') }}" method="get">
-                <button class="quick-stats">Quick Stats</button>
+                <button type="submit" class="quick-stats">Quick Stats</button>
             </form>
         </div>
-        <!--Create a new class -->
-        <form action="{{ url_for('attendance.create_class') }}" method="get">
-            <button class="create-class">Create New Class</button>
-        </form>
 
+        <!-- Create New Class -->
+        <div class="create-class-section">
+            <form action="{{ url_for('attendance.create_class') }}" method="get">
+                <button type="submit" class="create-class">+ Create New Class</button>
+            </form>
+        </div>
     </div>
+
     <script>
         const menuBtn = document.getElementById("menu-btn");
         const sidebar = document.getElementById("sidebar");
         const closeBtn = document.getElementById("close-btn");
         const overlay = document.getElementById("overlay");
-        
+
         menuBtn.onclick = () => {
             sidebar.classList.add("active");
             overlay.classList.add("active");
         };
-        
+
         closeBtn.onclick = () => {
             sidebar.classList.remove("active");
             overlay.classList.remove("active");
         };
-        
+
         overlay.onclick = () => {
             sidebar.classList.remove("active");
             overlay.classList.remove("active");
         };
     </script>
-    
 </body>
 </html>
