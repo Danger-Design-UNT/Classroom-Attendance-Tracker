@@ -3,34 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>log in</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+    <title>Login - DD Attendance Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
-    <div class="container">
-        <img src="" alt="" class="login-logo">
-        <h2 class="login-header">Login</h2>
+    <main class="login-page">
+        <section class="login-hero">
+            <div class="hero-badge">Danger Design</div>
+            <h1>Attendance Tracker</h1>
+            <p>
+                A simple portal for managing classroom attendance, QR check-ins,
+                class sessions, and student records.
+            </p>
+        </section>
 
-        <form method="POST" action="{{ url_for('auth.login') }}" class="login-form">
-            {{ form.hidden_tag() }} 
+        <section class="login-card">
+            <div class="login-brand">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Welcome back</p>
+                    <h2 class="login-header">Sign in to your account</h2>
+                </div>
+            </div>
 
-            {{ form.email(class_="login-email", placeholder="Email:") }}
-            {% for error in form.email.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
+            <form method="POST" action="{{ url_for('auth.login') }}" class="login-form">
+                {{ form.hidden_tag() }}
 
-            {{ form.password(class_="login-password", placeholder="Password:") }}
-            {% for error in form.password.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
-            <!-- add css for text-danger -->
-            {{ form.submit(class_="sign-in-button") }}
-        </form>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    {{ form.email(class_="login-input", id="email", placeholder="Enter your email") }}
+                    {% for error in form.email.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
 
-        <button type="button" class="forgot-button">Forgot password</button>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    {{ form.password(class_="login-input", id="password", placeholder="Enter your password") }}
+                    {% for error in form.password.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
 
-        <a href="{{ url_for('auth.signup') }}" class="sign-up">Sign Up</a>
+                {{ form.submit(class_="sign-in-button") }}
+            </form>
 
-    </div>
+            <div class="login-actions">
+                <button type="button" class="forgot-button">Forgot password?</button>
+                <a href="{{ url_for('auth.signup') }}" class="sign-up">Create an account</a>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

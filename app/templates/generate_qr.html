@@ -3,86 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate QR Code - Classroom Attendance</title>
+    <title>Generate QR Code - Attendance Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/generate_qr.css') }}">
 </head>
 <body>
-    
-    <div class="container-total">
-        <div class="header">
-            Generate QR Code
-        </div>
-
-        <div class="qr-page-wrapper">
-
-            <h2>Generate Attendance QR Code</h2>
-
-            {% if message %}
-            <div class="alert alert-info">
-                {{ message }}
+    <main class="page-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Danger Design</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
             </div>
-            {% endif %}
 
-            <form method="POST">
-                
-                <!-- New: Class Dropdown -->
-                <div class="form-group">
-                    <label class="form-label">Select Your Class</label>
-                    <select name="class_id" class="form-control">
-                        <option value="">-- Or enter link manually below --</option>
-                        {% for cls in classes %}
-                        <option value="{{ cls.id }}">
-                            {{ cls.class_name }} - {{ cls.class_section }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                    <small class="form-text text-muted">
-                        Selecting a class will automatically create the correct attendance link.
-                    </small>
+            <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return-link">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        <section class="hero">
+            <p class="eyebrow">Teacher Tools</p>
+            <h2>Generate Attendance QR Code</h2>
+            <p class="hero-description">
+                Create a scannable QR code for class attendance. Select a class to generate the link automatically, or paste a manual attendance URL if needed.
+            </p>
+        </section>
+
+        <section class="content-grid">
+            <div class="form-card">
+                {% if message %}
+                <div class="alert alert-info">
+                    {{ message }}
+                </div>
+                {% endif %}
+
+                <form method="POST" class="qr-form">
+                    <div class="form-group">
+                        <label for="class_id">Select Your Class</label>
+                        <select name="class_id" id="class_id" class="form-control">
+                            <option value="">-- Or enter link manually below --</option>
+                            {% for cls in classes %}
+                            <option value="{{ cls.id }}">
+                                {{ cls.class_name }} - {{ cls.class_section }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <small class="helper-text">
+                            Selecting a class will automatically create the correct attendance link.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="data">Or paste full attendance link manually</label>
+                        <input
+                            type="url"
+                            class="form-control"
+                            id="data"
+                            name="data"
+                            placeholder="https://your-app.com/mark_attendance/5"
+                        >
+                        <small class="helper-text">
+                            Use this only if the dropdown is unavailable or you are testing a direct attendance URL.
+                        </small>
+                    </div>
+
+                    <button type="submit" class="primary-btn">Generate QR Code</button>
+                </form>
+            </div>
+
+            <div class="preview-card">
+                {% if qr_image_url %}
+                <div class="preview-header">
+                    <span class="status-badge">Ready</span>
+                    <h3>Generated QR Code</h3>
+                    <p>Show this QR code to students so they can scan in and be marked present.</p>
                 </div>
 
-                <!-- Manual link fallback -->
-                <div class="form-group">
-                    <label class="form-label">Or paste full attendance link manually</label>
-                    <input type="url" class="form-control" name="data"
-                           placeholder="https://your-app.com/mark_attendance/5">
-                    <small class="form-text text-muted">
-                        Only use this if the dropdown doesn't work or you're testing.
-                    </small>
-                </div>
-
-                <button type="submit" class="btn btn-primary">
-                    Generate QR Code
-                </button>
-            </form>
-
-            {% if qr_image_url %}
-            <div class="qr-preview">
-                <h4>✅ Generated QR Code</h4>
                 <div class="qr-image-container">
                     <img src="{{ qr_image_url }}" alt="QR Code" class="qr-image">
                 </div>
-                <p class="text-muted">
-                    Show this QR code to students. When they scan it, they will be marked present.
-                </p>
-                <a href="{{ qr_image_url }}" download="attendance-qr-code.png" class="btn btn-success">
+
+                <a href="{{ qr_image_url }}" download="attendance-qr-code.png" class="download-btn">
                     Download QR Code
                 </a>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">QR</div>
+                    <h3>No QR Code Yet</h3>
+                    <p>
+                        Select a class or enter a valid attendance link, then click
+                        <strong>Generate QR Code</strong>.
+                    </p>
+                </div>
+                {% endif %}
             </div>
-            {% else %}
-            <div class="no-qr-yet">
-                <p class="text-muted">
-                    Select a class or enter a link above, then click "Generate QR Code".
-                </p>
-            </div>
-            {% endif %}
-
-        </div>
-
-        <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return">
-            Return to Dashboard
-        </a>
-    </div>
-
+        </section>
+    </main>
 </body>
 </html>

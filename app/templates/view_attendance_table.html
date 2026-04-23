@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Attendance Table - Attendance Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_attendance_table.css') }}">
 </head>
 <body>
-    
+    <main class="page-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Danger Design</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
+
+            <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return-link">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        <section class="hero">
+            <p class="eyebrow">Teacher Tools</p>
+            <h2>Attendance Table</h2>
+            <p class="hero-description">
+                Review attendance records in a table view once class attendance data is connected.
+            </p>
+        </section>
+
+        <section class="table-card">
+            <div class="section-header">
+                <span class="status-badge">Records</span>
+                <h3>Attendance Overview</h3>
+                <p>This page is ready for a live attendance table when record data is available.</p>
+            </div>
+
+            <div class="empty-state">
+                <div class="empty-icon">AT</div>
+                <h4>No attendance records available yet</h4>
+                <p>
+                    Once attendance tracking data is wired in, student attendance records will appear here in a table layout.
+                </p>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

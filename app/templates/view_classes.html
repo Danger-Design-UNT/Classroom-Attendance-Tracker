@@ -1,25 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>View Classes</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/view_classes.css') }}">
-    </head>
-    <body>
-        <div class="container">
-            <h1>Your Classes</h1>
-            <ul class="class-list">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Classes - Attendance Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_classes.css') }}">
+</head>
+<body>
+    <main class="page-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Danger Design</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
+
+            <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return-link">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        <section class="hero">
+            <p class="eyebrow">Teacher Tools</p>
+            <h2>Your Classes</h2>
+            <p class="hero-description">
+                Review your current classes, open roster pages, and manage course sections from one place.
+            </p>
+        </section>
+
+        <section class="classes-card">
+            <div class="section-header">
+                <span class="status-badge">Class Directory</span>
+                <h3>Active Classes</h3>
+                <p>Browse all classes currently available in your attendance tracker.</p>
+            </div>
+
+            {% if classes %}
+            <div class="class-grid">
                 {% for c in classes %}
-                    <li class="class-item">
-                        {{ c.class_name }} ({{ c.class_section }})
-                        <a href="{{ url_for('r4.list_students', class_id=c.id) }}">Roster (R4)</a>
-                   </li>
+                <div class="class-item">
+                    <div class="class-main">
+                        <h4>{{ c.class_name }}</h4>
+                        <p class="class-section">
+                            Section: {{ c.class_section if c.class_section else "Not specified" }}
+                        </p>
+                    </div>
+
+                    <div class="class-actions">
+                        <a href="{{ url_for('r4.list_students', class_id=c.id) }}" class="action-btn">
+                            View Roster
+                        </a>
+                    </div>
+                </div>
                 {% endfor %}
-            </ul>
-        </div>
-        <form action="{{ url_for('attendance.teacher_dashboard') }}" method="get">
-            <button class="create-class">Return to Dashboard</button>
-        </form>
-    </body>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">CL</div>
+                <h4>No classes available</h4>
+                <p>
+                    You have not created any classes yet. Add a class from the dashboard to get started.
+                </p>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+</body>
 </html>
