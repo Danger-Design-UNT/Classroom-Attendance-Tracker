@@ -3,65 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Settings - Attendance Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/settings_teacher.css') }}">
-    <title>settings</title>
 </head>
 <body>
-    <div class="container">
-        <h3 class="settings-header">Settings</h3>
+    <main class="page-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Danger Design</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
 
-        <button class="profile">Profile</button>
-        <div class="profile-info">
-            <div>Profile Picture</div>
-            <div class="email">Email: {{ current_user.email }}</div>
-            <form action="{{ url_for('attendance.update_name') }}" method="POST">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" value="{{ current_user.name }}" required>
-            
-                <button type="submit">Save</button>
-            </form>
-            <div>Role: {{ current_user.role }}</div>
-        </div>
+            <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return-link">
+                ← Back to Dashboard
+            </a>
+        </header>
 
-        <button class="security">Security</button>
-        <div class="security-info">
-            <div class="password-change">Change Password</div>
-            <div class="settings-2fa">Enable 2FA</div>
-        </div>
+        <section class="hero">
+            <p class="eyebrow">Teacher Portal</p>
+            <h2>Settings</h2>
+            <p class="hero-description">
+                Manage your teacher profile, account details, and security preferences from one place.
+            </p>
+        </section>
 
-        <!-- <button class="notification">Notification settings</button>
-        <div class="notification-info">
-            <div>Attendance Alerts</div>
-            <button>Yes</button>
-        </div> -->
+        <section class="settings-layout">
+            <div class="settings-nav-card">
+                <span class="status-badge">Preferences</span>
+                <h3>Settings Menu</h3>
+                <p class="settings-nav-text">
+                    Choose a section below to view or update your account settings.
+                </p>
 
-        <a href="{{ url_for('attendance.teacher_dashboard')  }}" class="return">Return to dashboard</a>
+                <div class="settings-nav">
+                    <button class="settings-tab profile" type="button">Profile</button>
+                    <button class="settings-tab security" type="button">Security</button>
+                </div>
 
-        <a class="logout" href="{{ url_for('auth.logout') }}">Sign out</a>
+                <div class="account-actions">
+                    <a href="{{ url_for('auth.logout') }}" class="logout-link">Sign Out</a>
+                </div>
+            </div>
 
-    </div>
+            <div class="settings-content">
+                <div class="settings-panel profile-info active">
+                    <div class="panel-header">
+                        <span class="status-badge">Profile</span>
+                        <h3>Teacher Profile</h3>
+                        <p>Review your current account information and update your display name.</p>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <span class="info-label">Email</span>
+                            <div class="info-value">{{ current_user.email }}</div>
+                        </div>
+
+                        <div class="info-card">
+                            <span class="info-label">Role</span>
+                            <div class="info-value">{{ current_user.role }}</div>
+                        </div>
+                    </div>
+
+                    <form action="{{ url_for('attendance.update_name') }}" method="POST" class="settings-form">
+                        <div class="form-group">
+                            <label for="name">Display Name</label>
+                            <input type="text" id="name" name="name" value="{{ current_user.name }}" required>
+                        </div>
+
+                        <button type="submit" class="primary-btn">Save Changes</button>
+                    </form>
+                </div>
+
+                <div class="settings-panel security-info">
+                    <div class="panel-header">
+                        <span class="status-badge">Security</span>
+                        <h3>Account Security</h3>
+                        <p>Security tools and password features can be managed here as they are implemented.</p>
+                    </div>
+
+                    <div class="security-list">
+                        <div class="security-item">
+                            <h4>Change Password</h4>
+                            <p>Password update flow can be connected here in a future iteration.</p>
+                        </div>
+
+                        <div class="security-item">
+                            <h4>Enable 2FA</h4>
+                            <p>Two-factor authentication support can be added here for stronger account protection.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <script>
         const profileBtn = document.querySelector('.profile');
         const securityBtn = document.querySelector('.security');
-        const notificationBtn = document.querySelector('.notification');
         const profileInfo = document.querySelector('.profile-info');
         const securityInfo = document.querySelector('.security-info');
-        const notificationInfo = document.querySelector('.notification-info');
 
-        
-        profileBtn.addEventListener('click', () => {
-            profileInfo.classList.toggle('active');
-        });
-        securityBtn.addEventListener('click', () => {
-            securityInfo.classList.toggle('active');
-        }); 
-        notificationBtn.addEventListener('click', () => {
-            notificationInfo.classList.toggle('active');
-        });
+        function showPanel(panel) {
+            profileInfo.classList.remove('active');
+            securityInfo.classList.remove('active');
+            profileBtn.classList.remove('active-tab');
+            securityBtn.classList.remove('active-tab');
 
+            if (panel === 'profile') {
+                profileInfo.classList.add('active');
+                profileBtn.classList.add('active-tab');
+            } else if (panel === 'security') {
+                securityInfo.classList.add('active');
+                securityBtn.classList.add('active-tab');
+            }
+        }
 
+        profileBtn.addEventListener('click', () => showPanel('profile'));
+        securityBtn.addEventListener('click', () => showPanel('security'));
 
-
+        showPanel('profile');
     </script>
 </body>
 </html>

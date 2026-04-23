@@ -3,39 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Attendance History - Attendance Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/student_attendance_history.css') }}">
 </head>
 <body>
-    <div class="container">
-        <div class="attendance-header">Attendance History</div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Class</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for record in records %}
-                    <tr>
-                        <td>{{ record.class_.class_name }} - {{ record.class_.class_section }}</td>
-                        <td class="timestamp" data-utc="{{ record.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}Z"></td>
-                    </tr>
-                    {% else %}
-                    <tr><td colspan="2">No attendance records yet.</td></tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <a href="{{ url_for('attendance.student_dashboard') }}" class="return">Return to dashboard</a>
-    </div>
+
+    <main class="page-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Danger Design</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
+
+            <a href="{{ url_for('attendance.student_dashboard') }}" class="return-link">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        <section class="hero">
+            <p class="eyebrow">Student Portal</p>
+            <h2>Attendance History</h2>
+            <p class="hero-description">
+                Review your previous attendance records and track your classroom participation over time.
+            </p>
+        </section>
+
+        <section class="history-card">
+
+            <div class="section-header">
+                <span class="status-badge">History</span>
+                <h3>Your Attendance Record</h3>
+                <p>This section displays your attendance history.</p>
+            </div>
+
+            {% if records %}
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ record.class_.class_name }} - {{ record.class_.class_section }}</td>
+                            <td class="timestamp" data-utc="{{ record.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}Z"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+                <div class="empty-icon">HS</div>
+                <h4>No attendance records to display yet</h4>
+                <p>
+                    Your attendance will appear here once you check into classes.
+                </p>
+            </div>
+
+            {% endif %}
+
+        </section>
+    </main>
+
     <script>
         document.querySelectorAll('.timestamp').forEach(el => {
             const utc = new Date(el.dataset.utc);
             el.textContent = utc.toLocaleString();
         });
     </script>
+
 </body>
 </html>

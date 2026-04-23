@@ -3,18 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Quick Stats - Attendance Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/quick_stats.css') }}">
 </head>
 <body>
-    <div class="container">
-            <h1>Quick Stats</h1>
-            
-</li>
-            </ul>
-        </div>
-        <form action="{{ url_for('attendance.teacher_dashboard') }}" method="get">
-            <button class="create-class">Return to Dashboard</button>
-        </form>
+    <main class="page-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Danger Design</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
+
+            <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return-link">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        <section class="hero">
+            <p class="eyebrow">Teacher Tools</p>
+            <h2>Quick Stats</h2>
+            <p class="hero-description">
+                View a high-level summary of attendance activity, engagement, and classroom performance metrics.
+            </p>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-label">Total Students</span>
+                <div class="stat-value">--</div>
+                <p class="stat-note">Student count will appear here once stats are connected.</p>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Attendance Rate</span>
+                <div class="stat-value">--%</div>
+                <p class="stat-note">Overall attendance percentage placeholder.</p>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Classes Tracked</span>
+                <div class="stat-value">--</div>
+                <p class="stat-note">Number of classes currently being monitored.</p>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Today's Check-Ins</span>
+                <div class="stat-value">--</div>
+                <p class="stat-note">Attendance activity for the current day.</p>
+            </div>
+        </section>
+
+        <section class="insight-card">
+            <div class="insight-header">
+                <span class="status-badge">Coming Soon</span>
+                <h3>Analytics Preview</h3>
+            </div>
+
+            <p class="insight-text">
+                This section is reserved for future attendance insights such as class-by-class trends,
+                attendance averages, and summary breakdowns for instructors.
+            </p>
+
+            <div class="chart-placeholder">
+                <div class="chart-bar bar-one"></div>
+                <div class="chart-bar bar-two"></div>
+                <div class="chart-bar bar-three"></div>
+                <div class="chart-bar bar-four"></div>
+                <div class="chart-bar bar-five"></div>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

@@ -3,60 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>student dashboard</title>
+    <title>Student Dashboard - Attendance Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_student.css') }}">
 </head>
 <body>
-    <div class="container">
+    <button id="menu-btn" class="menu-btn" aria-label="Open menu">☰</button>
 
-
-        <button id="menu-btn" class="menu-btn">
-            ☰
-        </button>
-        
-        <div id="sidebar" class="sidebar">
-            <button id="close-btn" class="close-btn">×</button>
-
-            <ul class="sidebar-links">
-                <li><a href="{{ url_for('attendance.settings') }}">⚙️ Settings</a></li>
-                <li><a href="{{ url_for('auth.logout') }}">Sign out</a></li>
-            </ul>
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>Portal</h3>
+            <button id="close-btn" class="close-btn" aria-label="Close menu">×</button>
         </div>
 
-        <div id="overlay" class="overlay"></div>
-
-
-
-        <h2 class="student-name">Welcome Student {{ current_user.name }}</h2> 
-        <form action="{{ url_for('attendance.scan_qr') }}" method="get">
-            <button class="qr-scan">Scan Qr Code</button>
-        </form>
-        <form action="{{ url_for('attendance.student_attendance_history') }}" method="get">
-            <button type="submit" class="attendance-view">View Attendance History</button>
-        </form>
+        <ul class="sidebar-links">
+            <li><a href="{{ url_for('attendance.settings') }}">Settings</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+        </ul>
     </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <main class="dashboard-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Danger Design</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
+            <div class="portal-badge">Student Portal</div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-text">
+                <p class="eyebrow">Welcome</p>
+                <h2>{{ current_user.name }}</h2>
+                <p class="hero-description">
+                    Access your attendance tools, scan into class, and review your attendance history.
+                </p>
+            </div>
+        </section>
+
+        <section class="dashboard-grid student-grid">
+            <a href="{{ url_for('attendance.scan_qr') }}" class="dashboard-card card-primary">
+                <div class="card-icon">QR</div>
+                <div class="card-content">
+                    <h3>Scan QR Code</h3>
+                    <p>Scan the classroom QR code to record your attendance.</p>
+                </div>
+            </a>
+
+            <a href="{{ url_for('attendance.student_attendance_history') }}" class="dashboard-card">
+                <div class="card-icon">HS</div>
+                <div class="card-content">
+                    <h3>Attendance History</h3>
+                    <p>Review your previous attendance records and class participation.</p>
+                </div>
+            </a>
+        </section>
+    </main>
 
     <script>
         const menuBtn = document.getElementById("menu-btn");
         const sidebar = document.getElementById("sidebar");
         const closeBtn = document.getElementById("close-btn");
         const overlay = document.getElementById("overlay");
-        
+
         menuBtn.onclick = () => {
             sidebar.classList.add("active");
             overlay.classList.add("active");
         };
-        
+
         closeBtn.onclick = () => {
             sidebar.classList.remove("active");
             overlay.classList.remove("active");
         };
-        
+
         overlay.onclick = () => {
             sidebar.classList.remove("active");
             overlay.classList.remove("active");
         };
     </script>
-        
 </body>
 </html>

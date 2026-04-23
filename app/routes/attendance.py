@@ -166,21 +166,33 @@ def qr_generate():
 @attendance_bp.route('/mark_attendance/<int:class_id>')
 @role_required('student')
 def mark_attendance(class_id):
-    class_obj = Class.query.get_or_404(class_id)   # Better error handling
+    class_obj = Class.query.get_or_404(class_id)
 
-    # Get or create student
+    # Get or create Student record
     student = Student.query.filter_by(email=current_user.email).first()
+
     if not student:
+        # Create new student with best possible name
+        display_name = current_user.name
+        if not display_name or display_name.strip() == "":
+            # Make email prefix nicer (e.g. "john.doe" → "John Doe")
+            email_prefix = current_user.email.split('@')[0]
+            display_name = ' '.join(word.capitalize() for word in email_prefix.replace('.', ' ').split())
+        
         student = Student(
-            name=current_user.name or current_user.email.split('@')[0],
+            name=display_name,
             email=current_user.email
         )
         db.session.add(student)
         db.session.commit()
+    else:
+        # Student already exists - update name if it was changed in settings
+        if current_user.name and current_user.name.strip() != "" and current_user.name != student.name:
+            student.name = current_user.name
+            db.session.commit()
 
+    # Prevent duplicate attendance today
     today = datetime.utcnow().date()
-
-    # Check if already marked today
     existing = Attendance.query.filter(
         Attendance.student_id == student.id,
         Attendance.class_id == class_id,
@@ -191,20 +203,18 @@ def mark_attendance(class_id):
         return render_template('attendance_success.html', 
                                class_name=class_obj.class_name, 
                                already_marked=True)
+    else:
+        new_attendance = Attendance(
+            student_id=student.id,
+            class_id=class_id,
+            timestamp=datetime.utcnow()
+        )
+        db.session.add(new_attendance)
+        db.session.commit()
 
-    # Mark attendance
-    new_attendance = Attendance(
-        student_id=student.id,
-        class_id=class_id,
-        timestamp=datetime.utcnow()
-    )
-    db.session.add(new_attendance)
-    db.session.commit()
-
-    return render_template('attendance_success.html', 
-                           class_name=class_obj.class_name, 
-                           already_marked=False)
-    
+        return render_template('attendance_success.html', 
+                               class_name=class_obj.class_name, 
+                               already_marked=False)
     
 # ==================== Student QR Scanner ====================
 @attendance_bp.route('/scan_qr')
@@ -219,3 +229,17 @@ def student_attendance_history():
     records = Attendance.query.filter_by(student_id=student.id).all() if student else []
     return render_template('student_attendance_history.html', records=records)
 
+# ==================== Update Name Route ====================
+@attendance_bp.route('/update_name', methods=['POST'])
+@login_required
+def update_name():
+    new_name = request.form.get('name', '').strip()
+    
+    if not new_name:
+        flash("Name cannot be empty.", "danger")
+    else:
+        current_user.name = new_name
+        db.session.commit()
+        flash("Name updated successfully!", "success")
+    
+    return redirect(url_for('attendance.settings'))

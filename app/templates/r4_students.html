@@ -1,65 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Students – {{ clazz.name }}</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-            padding: 24px;
-        }
-        h1 { margin-bottom: 12px; }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 16px;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-        th { background: #f3f3f3; }
-        tr:nth-child(even) { background: #fafafa; }
-    </style>
+    <title>Students - {{ clazz.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/r4.css') }}">
 </head>
 <body>
+    <main class="page-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Danger Design</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
 
-<h1>Students for {{ clazz.name }}</h1>
+            <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return-link">
+                ← Back to Dashboard
+            </a>
+        </header>
 
-<h2>Upload Class Roster (PDF)</h2>
+        <section class="hero">
+            <p class="eyebrow">Class Roster</p>
+            <h2>Students for {{ clazz.name }}</h2>
+            <p class="hero-description">
+                Upload a class roster PDF and review the enrolled students for this course in one place.
+            </p>
+        </section>
 
-<form
-    action="{{ url_for('r4.upload_roster', class_id=clazz.id) }}"
-    method="POST"
-    enctype="multipart/form-data"
->
-    <input type="file" name="roster_pdf" accept="application/pdf" required>
-    <button type="submit">Upload Roster</button>
-</form>
+        <section class="content-grid">
+            <div class="upload-card">
+                <div class="section-header">
+                    <span class="status-badge">Roster Tools</span>
+                    <h3>Upload Class Roster</h3>
+                    <p>Add a PDF roster file to populate or update the student list for this class.</p>
+                </div>
 
-{% if students %}
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for s in students %}
-        <tr>
-            <td>{{ s.id }}</td>
-            <td>{{ s.name }}</td>
-            <td>{{ s.email }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% else %}
-<p>No students enrolled yet.</p>
-{% endif %}
+                <form
+                    action="{{ url_for('r4.upload_roster', class_id=clazz.id) }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    class="upload-form"
+                >
+                    <div class="form-group">
+                        <label for="roster_pdf">Roster PDF</label>
+                        <input
+                            type="file"
+                            id="roster_pdf"
+                            name="roster_pdf"
+                            accept="application/pdf"
+                            required
+                            class="file-input"
+                        >
+                    </div>
 
+                    <button type="submit" class="primary-btn">Upload Roster</button>
+                </form>
+            </div>
+
+            <div class="table-card">
+                <div class="section-header">
+                    <span class="status-badge">Student List</span>
+                    <h3>Enrolled Students</h3>
+                    <p>Review the current student records associated with this class.</p>
+                </div>
+
+                {% if students %}
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in students %}
+                            <tr>
+                                <td>{{ s.id }}</td>
+                                <td>{{ s.name }}</td>
+                                <td>{{ s.email }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">ST</div>
+                    <h4>No students enrolled yet</h4>
+                    <p>Upload a class roster PDF to begin populating this class with student data.</p>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
 </body>
 </html>
