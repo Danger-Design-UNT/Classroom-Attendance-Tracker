@@ -3,42 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Class</title>
+    <title>Create New Class - UNT Attendance Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/create_class.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Create a New Class</h1>
+    <main class="page-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">UNT</div>
+                <div>
+                    <p class="brand-subtitle">University of North Texas</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
-                        {{ message }}
+            <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return-link">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        <section class="hero">
+            <p class="eyebrow">Teacher Tools</p>
+            <h2>Create a New Class</h2>
+            <p class="hero-description">
+                Add a new course to your attendance system and organize class activity with a clean, simple setup.
+            </p>
+        </section>
+
+        <section class="form-card">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-stack">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+                {% endif %}
+            {% endwith %}
 
-        <form class="mid-section" method="POST">
-            <div class="form-group">
-                <label for="class_name">Class Name <span class="required">*</span></label>
-                <input type="text" id="class_name" name="class_name" 
-                       placeholder="e.g. CSCE 4901" required>
-            </div>
+            <form class="class-form" method="POST">
+                <div class="form-group">
+                    <label for="class_name">Class Name <span class="required">*</span></label>
+                    <input
+                        type="text"
+                        id="class_name"
+                        name="class_name"
+                        placeholder="e.g. CSCE 4901"
+                        required
+                    >
+                </div>
 
-            <div class="form-group">
-                <label for="class_section">Class Section</label>
-                <input type="text" id="class_section" name="class_section" 
-                       placeholder="e.g. 001 or Fall 2026">
-            </div>
+                <div class="form-group">
+                    <label for="class_section">Class Section</label>
+                    <input
+                        type="text"
+                        id="class_section"
+                        name="class_section"
+                        placeholder="e.g. 001 or Fall 2026"
+                    >
+                </div>
 
-            <button type="submit" class="create-class">Create Class</button>
-        </form>
-
-        <form action="{{ url_for('attendance.teacher_dashboard') }}" method="get">
-            <button type="submit" class="return">← Return to Dashboard</button>
-        </form>
-    </div>
+                <div class="button-row">
+                    <a href="{{ url_for('attendance.teacher_dashboard') }}" class="secondary-btn">
+                        Cancel
+                    </a>
+                    <button type="submit" class="primary-btn">Create Class</button>
+                </div>
+            </form>
+        </section>
+    </main>
 </body>
 </html>
