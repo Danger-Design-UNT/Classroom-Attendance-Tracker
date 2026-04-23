@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/view_attendance_table.css') }}">
 </head>
 <body>
+
     <main class="page-shell">
+
         <header class="topbar">
             <div class="brand-block">
                 <div class="brand-mark">DD</div>
@@ -26,25 +28,64 @@
             <p class="eyebrow">Teacher Tools</p>
             <h2>Attendance Table</h2>
             <p class="hero-description">
-                Review attendance records in a table view once class attendance data is connected.
+                Review attendance records in a table view.
             </p>
         </section>
 
         <section class="table-card">
+
             <div class="section-header">
                 <span class="status-badge">Records</span>
                 <h3>Attendance Overview</h3>
-                <p>This page is ready for a live attendance table when record data is available.</p>
+                <p>Live attendance records for your classes.</p>
             </div>
+
+            {% if records %}
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Email</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ record.student.name }}</td>
+                            <td>{{ record.student.email }}</td>
+                            <td class="timestamp" data-utc="{{ record.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}Z"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% else %}
 
             <div class="empty-state">
                 <div class="empty-icon">AT</div>
                 <h4>No attendance records available yet</h4>
                 <p>
-                    Once attendance tracking data is wired in, student attendance records will appear here in a table layout.
+                    Once students check in, attendance data will appear here.
                 </p>
             </div>
+
+            {% endif %}
+
         </section>
+
     </main>
+
+    <script>
+        document.querySelectorAll('.timestamp').forEach(el => {
+            const utc = new Date(el.dataset.utc);
+            el.textContent = utc.toLocaleString();
+        });
+    </script>
+
 </body>
 </html>

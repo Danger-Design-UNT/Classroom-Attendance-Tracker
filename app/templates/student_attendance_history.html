@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/student_attendance_history.css') }}">
 </head>
 <body>
+
     <main class="page-shell">
         <header class="topbar">
             <div class="brand-block">
@@ -31,20 +32,55 @@
         </section>
 
         <section class="history-card">
+
             <div class="section-header">
                 <span class="status-badge">History</span>
                 <h3>Your Attendance Record</h3>
-                <p>This section will display your historical attendance entries once connected to live data.</p>
+                <p>This section displays your attendance history.</p>
             </div>
+
+            {% if records %}
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ record.class_.class_name }} - {{ record.class_.class_section }}</td>
+                            <td class="timestamp" data-utc="{{ record.timestamp.strftime('%Y-%m-%dT%H:%M:%S') }}Z"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% else %}
 
             <div class="empty-state">
                 <div class="empty-icon">HS</div>
                 <h4>No attendance records to display yet</h4>
                 <p>
-                    Once attendance history data is connected, your past class check-ins and attendance activity will appear here.
+                    Your attendance will appear here once you check into classes.
                 </p>
             </div>
+
+            {% endif %}
+
         </section>
     </main>
+
+    <script>
+        document.querySelectorAll('.timestamp').forEach(el => {
+            const utc = new Date(el.dataset.utc);
+            el.textContent = utc.toLocaleString();
+        });
+    </script>
+
 </body>
 </html>
