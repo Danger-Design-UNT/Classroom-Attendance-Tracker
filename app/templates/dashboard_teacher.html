@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard - Classroom Attendance</title>
+    <title>Teacher Dashboard - UNT Attendance Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_teacher.css') }}">
 </head>
 <body>
-    
-    <button id="menu-btn" class="menu-btn">☰</button>
+    <button id="menu-btn" class="menu-btn" aria-label="Open menu">☰</button>
 
     <div id="sidebar" class="sidebar">
-        <button id="close-btn" class="close-btn">×</button>
+        <div class="sidebar-header">
+            <h3>UNT Portal</h3>
+            <button id="close-btn" class="close-btn" aria-label="Close menu">×</button>
+        </div>
         <ul class="sidebar-links">
             <li><a href="{{ url_for('attendance.teacher_settings') }}">Settings</a></li>
             <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
@@ -20,47 +22,70 @@
 
     <div id="overlay" class="overlay"></div>
 
-    <div class="container">
-        <h2 class="teacher-header">Teacher Dashboard</h2>
+    <main class="dashboard-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">UNT</div>
+                <div>
+                    <p class="brand-subtitle">University of North Texas</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
+            <div class="portal-badge">Teacher Portal</div>
+        </header>
 
-        
-        <div class="qr-section">
-            <a href="{{ url_for('attendance.qr_generate') }}" class="qr-link">
-                <button class="qr-generate-btn">
-                    Generate QR Code for Attendance
-                </button>
+        <section class="hero">
+            <div class="hero-text">
+                <p class="eyebrow">Dashboard</p>
+                <h2>Teacher Dashboard</h2>
+                <p class="hero-description">
+                    Manage attendance, classes, sessions, and classroom activity from one place.
+                </p>
+            </div>
+        </section>
+
+        <section class="dashboard-grid">
+            <a href="{{ url_for('attendance.qr_generate') }}" class="dashboard-card card-primary">
+                <div class="card-icon">QR</div>
+                <div class="card-content">
+                    <h3>Generate QR Code</h3>
+                    <p>Create a QR code for students to mark attendance quickly.</p>
+                </div>
             </a>
-        </div>
 
-        <div class="view-container">
-            <!-- View Attendance -->
-            
+            <a href="{{ url_for('attendance.view_classes') }}" class="dashboard-card">
+                <div class="card-icon">CL</div>
+                <div class="card-content">
+                    <h3>View All Classes</h3>
+                    <p>Browse your courses, sections, and class details.</p>
+                </div>
+            </a>
 
-            <!-- View All Classes -->
-            <form action="{{ url_for('attendance.view_classes') }}" method="get">
-                <button type="submit" class="view-all-classes">View All Classes</button>
-            </form>
-        </div>
+            <a href="{{ url_for('attendance.todays_sessions') }}" class="dashboard-card">
+                <div class="card-icon">TD</div>
+                <div class="card-content">
+                    <h3>Today's Sessions</h3>
+                    <p>Check the sessions scheduled for today and stay organized.</p>
+                </div>
+            </a>
 
-        <div class="bottom-container">
-            <!-- Today's Sessions -->
-            <form action="{{ url_for('attendance.todays_sessions') }}" method="get">
-                <button type="submit" class="today-class">Today's Sessions</button>
-            </form>
+            <a href="{{ url_for('attendance.quick_stats') }}" class="dashboard-card">
+                <div class="card-icon">ST</div>
+                <div class="card-content">
+                    <h3>Quick Stats</h3>
+                    <p>Review attendance metrics and other useful class insights.</p>
+                </div>
+            </a>
 
-            <!-- Quick Stats -->
-            <form action="{{ url_for('attendance.quick_stats') }}" method="get">
-                <button type="submit" class="quick-stats">Quick Stats</button>
-            </form>
-        </div>
-
-        <!-- Create New Class -->
-        <div class="create-class-section">
-            <form action="{{ url_for('attendance.create_class') }}" method="get">
-                <button type="submit" class="create-class">+ Create New Class</button>
-            </form>
-        </div>
-    </div>
+            <a href="{{ url_for('attendance.create_class') }}" class="dashboard-card card-accent card-wide">
+                <div class="card-icon">+</div>
+                <div class="card-content">
+                    <h3>Create New Class</h3>
+                    <p>Add a new class and get your attendance workflow started.</p>
+                </div>
+            </a>
+        </section>
+    </main>
 
     <script>
         const menuBtn = document.getElementById("menu-btn");
