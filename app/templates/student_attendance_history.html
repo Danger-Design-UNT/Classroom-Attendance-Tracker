@@ -3,14 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Attendance History - Attendance Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/student_attendance_history.css') }}">
 </head>
-<body >
-    <div lass="container">
-        <div class="attendance-header">Attendance History</div>
-        <a href="{{ url_for('attendance.student_dashboard')  }}" class="return">Return to dashboard</a>
-    </div>
+<body>
+    <main class="page-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Danger Design</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
 
+            <a href="{{ url_for('attendance.student_dashboard') }}" class="return-link">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        <section class="hero">
+            <p class="eyebrow">Student Portal</p>
+            <h2>Attendance History</h2>
+            <p class="hero-description">
+                Review your previous attendance records and track your classroom participation over time.
+            </p>
+        </section>
+
+        <section class="history-card">
+            <div class="section-header">
+                <span class="status-badge">History</span>
+                <h3>Your Attendance Record</h3>
+                <p>This section will display your historical attendance entries once connected to live data.</p>
+            </div>
+
+            <div class="empty-state">
+                <div class="empty-icon">HS</div>
+                <h4>No attendance records to display yet</h4>
+                <p>
+                    Once attendance history data is connected, your past class check-ins and attendance activity will appear here.
+                </p>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Today's Sessions - Attendance Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/todays_session.css') }}">
 </head>
 <body>
-    
+    <main class="page-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="brand-mark">DD</div>
+                <div>
+                    <p class="brand-subtitle">Danger Design</p>
+                    <h1 class="brand-title">Attendance Tracker</h1>
+                </div>
+            </div>
+
+            <a href="{{ url_for('attendance.teacher_dashboard') }}" class="return-link">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        <section class="hero">
+            <p class="eyebrow">Teacher Tools</p>
+            <h2>Today's Sessions</h2>
+            <p class="hero-description">
+                View the sessions scheduled for today and monitor daily classroom activity.
+            </p>
+        </section>
+
+        <section class="sessions-card">
+            <div class="section-header">
+                <span class="status-badge">Daily View</span>
+                <h3>Session Overview</h3>
+                <p>This page is ready for daily session data when the backend is connected.</p>
+            </div>
+
+            <div class="empty-state">
+                <div class="empty-icon">TD</div>
+                <h4>No sessions scheduled yet</h4>
+                <p>
+                    Once live session data is connected, today’s classes and attendance activity will appear here.
+                </p>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
